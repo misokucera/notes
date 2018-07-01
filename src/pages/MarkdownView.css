@@ -1,0 +1,26 @@
+.MarkdownView {
+    padding: 1em;
+    font-weight: 400;
+    color: #444444;
+}
+
+.MarkdownView h1,
+.MarkdownView h2,
+.MarkdownView h3,
+.MarkdownView h4,
+.MarkdownView h5,
+.MarkdownView h6 {
+    font-weight: 400;
+}
+
+.MarkdownView p {
+    line-height: 1.4;
+}
+
+.MarkdownView code {
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+    padding: 0 0.2em;
+    font-size: 0.9em;
+    background: #eee;
+    border-radius: 0.1em;
+}

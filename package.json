@@ -5,20 +5,19 @@
   "dependencies": {
     "@material-ui/core": "^1.2.3",
     "codemirror": "^5.39.0",
-    "draft-js": "^0.10.5",
-    "draft-js-autolist-plugin": "^2.0.0",
-    "draft-js-plugins-editor": "^2.1.1",
     "firebase": "^5.0.4",
     "firebaseui": "latest",
     "react": "^16.4.1",
     "react-codemirror2": "^5.0.4",
     "react-dom": "^16.4.1",
     "react-firebaseui": "^3.0.4",
+    "react-grid-layout": "^0.16.6",
     "react-markdown": "^3.3.4",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-split-pane": "^0.1.81",
-    "typeface-roboto": "^0.0.54"
+    "typeface-roboto": "^0.0.54",
+    "typeface-roboto-mono": "^0.0.54"
   },
   "scripts": {
     "start": "react-scripts start",

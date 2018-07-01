@@ -1,0 +1,9 @@
+.CodeMirror {
+    height: auto;
+    padding: 1em;
+    background: none;
+}
+
+.CodeMirror pre {
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+}
