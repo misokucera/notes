@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.2.3",
+    "@material-ui/icons": "^1.1.0",
     "codemirror": "^5.39.0",
     "firebase": "^5.0.4",
     "firebaseui": "latest",

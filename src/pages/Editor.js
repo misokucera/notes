@@ -15,17 +15,10 @@ const codeMirrorOptions = {
     viewPortMargin: 'infinity'
 };
 
-const defaultEditorState = `
-# nadpis
-nejaka veta z odstavca
-- odrazka 1
-- odrazka 2
-- odrazka 3`;
-
 class Editor extends React.Component {
 
     state = {
-        editorState: defaultEditorState };
+        editorState: this.props.editorState };
 
     onChange = (editor, data, value) => {
         this.setState({editorState: value});
@@ -42,7 +35,7 @@ class Editor extends React.Component {
                     <Button color="primary" className="" onClick={this.onSave}>Save</Button>
                 </div>
                 <SplitPane split="vertical" minSize={200} defaultSize={800}>
-                    <CodeMirror value={defaultEditorState} options={codeMirrorOptions} onChange={this.onChange} />
+                    <CodeMirror value={this.props.editorState} options={codeMirrorOptions} onChange={this.onChange} />
                     <MarkdownView source={this.state.editorState}/>
                 </SplitPane>
             </div>
