@@ -5,7 +5,7 @@ import Editor from "./Editor";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-class NewNote extends React.Component {
+class Note extends React.Component {
 
     constructor(props) {
         super(props);
@@ -36,7 +36,8 @@ class NewNote extends React.Component {
 
     save(content) {
         firebase.database().ref(this.state.userId + '/notes/' + this.state.noteId).update({
-            content
+            content,
+            updatedTime: Date.now()
         });
     }
 
@@ -48,4 +49,4 @@ class NewNote extends React.Component {
     }
 }
 
-export default NewNote;
+export default Note;

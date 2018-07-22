@@ -11,27 +11,26 @@ import CardHeader from "@material-ui/core/es/CardHeader/CardHeader";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
 import EditIcon from '@material-ui/icons/es/Edit';
 import Redirect from "react-router-dom/es/Redirect";
+import FormatHelper from "./FormatHelper";
 
 const ResponsiveLayout = WidthProvider(Responsive);
 
 class List extends React.Component {
 
-    currentUser = firebase.auth().currentUser.uid;
+    user = firebase.auth().currentUser.uid;
+    db = firebase.database();
 
     state = {
-        db: firebase.database().ref(this.currentUser + '/notes'),
         notes: [],
         redirectTo: '',
         layouts: {}
     };
 
     componentDidMount() {
-        this.state.db.once('value', (snapshot) => {
+        this.db.ref(this.user + '/notes').once('value', (snapshot) => {
             let notes = [];
             snapshot.forEach(item => { notes.push(item) });
-            firebase.database().ref(this.currentUser + '/layouts').on('value', (snapshot) => {
-                console.log(snapshot.val());
-                console.log(notes);
+            this.db.ref(this.user + '/layouts').once('value', (snapshot) => {
                 this.setState({
                     notes,
                     layouts: snapshot.val() || {}
@@ -41,33 +40,31 @@ class List extends React.Component {
     }
 
     componentWillUnmount() {
-        this.state.db.off();
+        this.db.ref(this.user + '/layouts').off();
+        this.db.ref(this.user + '/notes').off();
     }
 
     onEditClick(noteId) {
         this.setState({ redirectTo: '/note/' + noteId })
     };
 
-    onLayoutChange = (layout, layouts) => {
-        const cleanedLayouts = {};
+    prepareLayouts(layouts) {
         const keys = Object.keys(layouts);
+        let cleanedLayouts = {};
 
         keys.forEach((key) => {
             cleanedLayouts[key] = layouts[key].map((item) => {
-                return {
-                    w: item.w,
-                    h: item.h,
-                    x: item.x,
-                    y: item.y,
-                    i: item.i
-                }
+                return { w: item.w, h: item.h, x: item.x, y: item.y, i: item.i }
             });
         });
-        firebase.database().ref(this.currentUser + '/layouts').set(cleanedLayouts);
-        this.setState({
-            layouts: layouts
-        });
+
+        return cleanedLayouts;
     }
+
+    onLayoutChange = (layout, layouts) => {
+        const cleanedLayouts = this.prepareLayouts(layouts);
+        this.db.ref(this.user + '/layouts').set(cleanedLayouts);
+    };
 
     render() {
         const notes = this.state.notes.map((note) => (
@@ -78,7 +75,7 @@ class List extends React.Component {
                             <EditIcon />
                         </IconButton>
                     }
-                    subheader="September 14, 2016"
+                    subheader={FormatHelper.formatDateTime(note.val().updatedTime)}
                 />
                 <CardContent>
                     <MarkdownView source={note.val().content}/>
