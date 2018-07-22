@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import Layout from "./Layout";
 import firebase from 'firebase';
 import Card from "@material-ui/core/es/Card/Card";
@@ -10,6 +10,7 @@ import "react-resizable/css/styles.css";
 import CardHeader from "@material-ui/core/es/CardHeader/CardHeader";
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
 import EditIcon from '@material-ui/icons/es/Edit';
+import DeleteIcon from '@material-ui/icons/es/Delete';
 import Redirect from "react-router-dom/es/Redirect";
 import FormatHelper from "./FormatHelper";
 
@@ -48,6 +49,14 @@ class List extends React.Component {
         this.setState({ redirectTo: '/note/' + noteId })
     };
 
+    onDeleteClick(noteId) {
+        this.db.ref(this.user + '/notes/' + noteId).remove(() => {
+            this.setState({
+               notes: this.state.notes.filter((note) => note.key !== noteId)
+            });
+        });
+    }
+
     prepareLayouts(layouts) {
         const keys = Object.keys(layouts);
         let cleanedLayouts = {};
@@ -71,9 +80,14 @@ class List extends React.Component {
             <Card key={note.key}>
                 <CardHeader
                     action={
-                        <IconButton onClick={() => this.onEditClick(note.key)}>
-                            <EditIcon />
-                        </IconButton>
+                        <Fragment>
+                            <IconButton onClick={() => this.onEditClick(note.key)}>
+                                <EditIcon />
+                            </IconButton>
+                            <IconButton onClick={() => this.onDeleteClick(note.key)}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </Fragment>
                     }
                     subheader={FormatHelper.formatDateTime(note.val().updatedTime)}
                 />
