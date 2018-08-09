@@ -1,5 +1,5 @@
 import React from "react";
-import Redirect from "react-router-dom/es/Redirect";
+import Redirect from "react-router-dom/Redirect";
 import firebase from "firebase";
 import {StyledFirebaseAuth} from "react-firebaseui";
 import firebaseui from "firebaseui";

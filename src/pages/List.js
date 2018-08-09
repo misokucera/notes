@@ -1,17 +1,17 @@
 import React, {Fragment} from "react";
 import Layout from "./Layout";
 import firebase from 'firebase';
-import Card from "@material-ui/core/es/Card/Card";
-import CardContent from "@material-ui/core/es/CardContent/CardContent";
+import Card from "@material-ui/core/Card/Card";
+import CardContent from "@material-ui/core/CardContent/CardContent";
 import MarkdownView from "./MarkdownView";
 import { WidthProvider, Responsive } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import CardHeader from "@material-ui/core/es/CardHeader/CardHeader";
-import IconButton from "@material-ui/core/es/IconButton/IconButton";
-import EditIcon from '@material-ui/icons/es/Edit';
-import DeleteIcon from '@material-ui/icons/es/Delete';
-import Redirect from "react-router-dom/es/Redirect";
+import CardHeader from "@material-ui/core/CardHeader/CardHeader";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Redirect from "react-router-dom/Redirect";
 import FormatHelper from "./FormatHelper";
 
 const ResponsiveLayout = WidthProvider(Responsive);

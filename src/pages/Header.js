@@ -1,10 +1,10 @@
 import React from "react";
-import AppBar from "@material-ui/core/es/AppBar/AppBar";
-import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
-import Typography from "@material-ui/core/es/Typography/Typography";
+import AppBar from "@material-ui/core/AppBar/AppBar";
+import Toolbar from "@material-ui/core/Toolbar/Toolbar";
+import Typography from "@material-ui/core/Typography/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import Logout from "./Logout";
-import Button from "@material-ui/core/es/Button/Button";
+import Button from "@material-ui/core/Button/Button";
 import {Redirect} from "react-router-dom";
 
 const styles = {
