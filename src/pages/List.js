@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import Layout from "./Layout";
 import firebase from 'firebase';
 import Card from "@material-ui/core/Card/Card";
+import "./Card.css";
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import MarkdownView from "./MarkdownView";
 import { WidthProvider, Responsive } from "react-grid-layout";
@@ -77,7 +78,7 @@ class List extends React.Component {
 
     render() {
         const notes = this.state.notes.map((note) => (
-            <Card key={note.key}>
+            <Card key={note.key} className="Card">
                 <CardHeader
                     action={
                         <Fragment>
@@ -92,7 +93,7 @@ class List extends React.Component {
                     subheader={FormatHelper.formatDateTime(note.val().updatedTime)}
                 />
                 <CardContent>
-                    <MarkdownView source={note.val().content}/>
+                    <MarkdownView type="compact" source={note.val().content}/>
                 </CardContent>
             </Card>
         ));

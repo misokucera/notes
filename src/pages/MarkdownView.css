@@ -4,6 +4,14 @@
     color: #444444;
 }
 
+.MarkdownView.Compact {
+    padding: 0;
+}
+
+.MarkdownView.Compact > div > :first-child {
+    margin-top: 0;
+}
+
 .MarkdownView h1,
 .MarkdownView h2,
 .MarkdownView h3,

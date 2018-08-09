@@ -1,0 +1,17 @@
+.Card {
+    position: relative;
+}
+
+.Card:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2em;
+    pointer-events: none;
+    bottom: 0;
+    background: linear-gradient(transparent, white 80%);
+}
+
+.Card .react-resizable-handle {
+    z-index: 10;
+}
