@@ -1,5 +1,6 @@
 .Card {
     position: relative;
+    height: 100%;
 }
 
 .Card:after {

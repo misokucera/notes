@@ -1,24 +1,14 @@
-import React, {Fragment} from "react";
+import React from "react";
 import Layout from "./Layout";
 import firebase from 'firebase';
-import Card from "@material-ui/core/Card/Card";
-import "./Card.css";
-import CardContent from "@material-ui/core/CardContent/CardContent";
-import MarkdownView from "./MarkdownView";
 import { WidthProvider, Responsive } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import CardHeader from "@material-ui/core/CardHeader/CardHeader";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Redirect from "react-router-dom/Redirect";
-import FormatHelper from "../helpers/FormatHelper";
-import {Link} from "react-router-dom";
+import NoteListItem from "./NoteListItem";
 
 const ResponsiveLayout = WidthProvider(Responsive);
 
-class List extends React.Component {
+class NoteList extends React.Component {
 
     user = firebase.auth().currentUser.uid;
     db = firebase.database();
@@ -46,7 +36,7 @@ class List extends React.Component {
         this.db.ref(this.user + '/notes').off();
     }
 
-    onDeleteClick(noteId) {
+    onDeleteClick = (noteId) => {
         this.db.ref(this.user + '/notes/' + noteId).remove(() => {
             this.setState({
                notes: this.state.notes.filter((note) => note.key !== noteId)
@@ -74,26 +64,13 @@ class List extends React.Component {
 
     render() {
         const notes = this.state.notes.map((note) => (
-            <Card key={note.key} className="Card">
-                <CardHeader
-                    action={
-                        <Fragment>
-                            <Link to={"/note/" + note.key}>
-                                <IconButton>
-                                    <EditIcon />
-                                </IconButton>
-                            </Link>
-                            <IconButton onClick={() => this.onDeleteClick(note.key)}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </Fragment>
-                    }
-                    subheader={FormatHelper.formatDateTime(note.val().updatedTime)}
+            <div key={note.key}>
+                <NoteListItem
+                    id={note.key}
+                    note={note.val()}
+                    onNoteDelete={this.onDeleteClick}
                 />
-                <CardContent>
-                    <MarkdownView type="compact" source={note.val().content}/>
-                </CardContent>
-            </Card>
+            </div>
         ));
 
         return (
@@ -111,4 +88,4 @@ class List extends React.Component {
     }
 }
 
-export default List;
+export default NoteList;
