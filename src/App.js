@@ -1,9 +1,9 @@
 import React from "react";
 import {BrowserRouter as Router, Route} from "react-router-dom";
-import Login from "./pages/Login";
-import List from "./pages/List";
-import Note from "./pages/Note";
-import PrivateRoute from './pages/PrivateRoute';
+import Login from "./components/Login";
+import List from "./components/List";
+import Note from "./components/Note";
+import PrivateRoute from './components/PrivateRoute';
 import "typeface-roboto";
 
 const App = () => (

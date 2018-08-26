@@ -13,7 +13,8 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Redirect from "react-router-dom/Redirect";
-import FormatHelper from "./FormatHelper";
+import FormatHelper from "../helpers/FormatHelper";
+import {Link} from "react-router-dom";
 
 const ResponsiveLayout = WidthProvider(Responsive);
 
@@ -24,7 +25,6 @@ class List extends React.Component {
 
     state = {
         notes: [],
-        redirectTo: '',
         layouts: {}
     };
 
@@ -45,10 +45,6 @@ class List extends React.Component {
         this.db.ref(this.user + '/layouts').off();
         this.db.ref(this.user + '/notes').off();
     }
-
-    onEditClick(noteId) {
-        this.setState({ redirectTo: '/note/' + noteId })
-    };
 
     onDeleteClick(noteId) {
         this.db.ref(this.user + '/notes/' + noteId).remove(() => {
@@ -82,9 +78,11 @@ class List extends React.Component {
                 <CardHeader
                     action={
                         <Fragment>
-                            <IconButton onClick={() => this.onEditClick(note.key)}>
-                                <EditIcon />
-                            </IconButton>
+                            <Link to={"/note/" + note.key}>
+                                <IconButton>
+                                    <EditIcon />
+                                </IconButton>
+                            </Link>
                             <IconButton onClick={() => this.onDeleteClick(note.key)}>
                                 <DeleteIcon />
                             </IconButton>
@@ -98,9 +96,8 @@ class List extends React.Component {
             </Card>
         ));
 
-        return this.state.redirectTo !== ''
-        ? <Redirect to={this.state.redirectTo} />
-        : <Layout>
+        return (
+            <Layout>
                 <ResponsiveLayout className="layout"
                                   layouts={this.state.layouts}
                                   cols={{ lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 }}
@@ -109,7 +106,8 @@ class List extends React.Component {
                                   onLayoutChange={this.onLayoutChange}>
                         {notes}
                 </ResponsiveLayout>
-            </Layout>;
+            </Layout>
+        );
     }
 }
 
