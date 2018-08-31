@@ -19,7 +19,7 @@ class NoteList extends React.Component {
     };
 
     componentDidMount() {
-        this.db.ref(this.user + '/notes').once('value', (snapshot) => {
+        this.db.ref(this.user + '/notes').on('value', (snapshot) => {
             let notes = [];
             snapshot.forEach(item => { notes.push(item) });
             this.db.ref(this.user + '/layouts').once('value', (snapshot) => {
@@ -37,12 +37,8 @@ class NoteList extends React.Component {
     }
 
     onDeleteClick = (noteId) => {
-        this.db.ref(this.user + '/notes/' + noteId).remove(() => {
-            this.setState({
-               notes: this.state.notes.filter((note) => note.key !== noteId)
-            });
-        });
-    }
+        this.db.ref(this.user + '/notes/' + noteId).remove();
+    };
 
     prepareLayouts(layouts) {
         const keys = Object.keys(layouts);
@@ -75,14 +71,16 @@ class NoteList extends React.Component {
 
         return (
             <Layout>
-                <ResponsiveLayout className="layout"
-                                  layouts={this.state.layouts}
-                                  cols={{ lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 }}
-                                  rowHeight={200}
-                                  width={1200}
-                                  onLayoutChange={this.onLayoutChange}>
+                {notes.length > 0 &&
+                    <ResponsiveLayout className="layout"
+                                      layouts={this.state.layouts}
+                                      cols={{lg: 5, md: 4, sm: 3, xs: 2, xxs: 1}}
+                                      rowHeight={200}
+                                      width={1200}
+                                      onLayoutChange={this.onLayoutChange}>
                         {notes}
-                </ResponsiveLayout>
+                    </ResponsiveLayout>
+                }
             </Layout>
         );
     }
