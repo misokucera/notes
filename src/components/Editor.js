@@ -18,7 +18,8 @@ const codeMirrorOptions = {
 class Editor extends React.Component {
 
     state = {
-        editorState: this.props.editorState };
+        editorState: this.props.editorState
+    };
 
     onChange = (editor, data, value) => {
         this.setState({editorState: value});
@@ -26,7 +27,11 @@ class Editor extends React.Component {
 
     onSave = () => {
         this.props.onSave(this.state.editorState);
-    }
+    };
+
+    onInit = (editor) => {
+      editor.focus();
+    };
 
     render() {
         return (
@@ -35,7 +40,12 @@ class Editor extends React.Component {
                     <Button color="primary" className="" onClick={this.onSave}>Save</Button>
                 </div>
                 <SplitPane split="vertical" minSize={200} defaultSize={800}>
-                    <CodeMirror value={this.props.editorState} options={codeMirrorOptions} onChange={this.onChange} />
+                    <CodeMirror
+                        value={this.props.editorState}
+                        options={codeMirrorOptions}
+                        onChange={this.onChange}
+                        editorDidMount={this.onInit}
+                    />
                     <MarkdownView source={this.state.editorState}/>
                 </SplitPane>
             </div>
