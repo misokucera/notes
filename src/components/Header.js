@@ -30,14 +30,9 @@ class Header extends React.Component {
                 <AppBar position="static" color="primary">
                     <Toolbar>
                         <Typography variant="title" color="inherit" className={classes.flex}>
-                            List
+                            {this.props.title}
                         </Typography>
-                        <Link to="/note" className={classes.anchor}>
-                            <Button color='inherit' onClick={this.onNewNoteClick}>New</Button>
-                        </Link>
-                        <Link to="/" className={classes.anchor}>
-                            <Button color='inherit' onClick={this.onListClick}>List</Button>
-                        </Link>
+                        {this.props.actions}
                         <Logout/>
                     </Toolbar>
                 </AppBar>

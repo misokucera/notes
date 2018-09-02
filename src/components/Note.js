@@ -26,24 +26,34 @@ class Note extends React.Component {
     }
 
     onEditorSave = (data) => {
+
+        const title = this.extractTitle(data);
+
+        console.log(title);
         if (!this.state.noteId) {
             const noteId = firebase.database().ref(this.state.userId).push().key;
-            this.setState({ noteId }, () => this.save(data));
+            this.setState({ noteId }, () => this.save(title, data));
         } else {
-            this.save(data)
+            this.save(title, data)
         }
     };
 
-    save(content) {
+    save(title, content) {
         firebase.database().ref(this.state.userId + '/notes/' + this.state.noteId).update({
-            content,
+            title: title,
+            content: content,
             updatedTime: Date.now()
         });
     }
 
+    extractTitle(text) {
+        const matches = text.match("^# (.+)");
+        return matches && matches.length > 0 ? matches[1] : '';
+    }
+
     render() {
         return (
-            <Layout>
+            <Layout title="Note">
                 <Editor editorState={this.state.editorState} onSave={this.onEditorSave}/>
             </Layout>);
     }

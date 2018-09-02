@@ -5,6 +5,9 @@ import { WidthProvider, Responsive } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import NoteListItem from "./NoteListItem";
+import {Link} from "react-router-dom";
+import IconButton from "@material-ui/core/es/IconButton/IconButton";
+import AddIcon from "@material-ui/icons/Add";
 
 const ResponsiveLayout = WidthProvider(Responsive);
 
@@ -69,8 +72,16 @@ class NoteList extends React.Component {
             </div>
         ));
 
+        const actions = (
+          <Link to="/note">
+              <IconButton color="secondary">
+                  <AddIcon/>
+              </IconButton>
+          </Link>
+        );
+
         return (
-            <Layout>
+        <Layout title="List" actions={actions}>
                 {notes.length > 0 &&
                     <ResponsiveLayout className="layout"
                                       layouts={this.state.layouts}

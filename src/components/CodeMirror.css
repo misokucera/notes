@@ -2,6 +2,7 @@
     height: auto;
     padding: 1em;
     background: none;
+    background: white;
 }
 
 .CodeMirror pre {
