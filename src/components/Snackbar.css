@@ -1,0 +1,12 @@
+.SnackbarContent.message > div {
+    display: flex;
+    align-items: center;
+}
+
+.SnackbarContent.success {
+    background: #43a047;
+}
+
+.SnackbarContent #message-id {
+    margin-left: 1em;
+}

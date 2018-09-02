@@ -15,14 +15,26 @@ const codeMirrorOptions = {
     viewPortMargin: 'infinity'
 };
 
+const autoSaveTimeout = 5000;
+
 class Editor extends React.Component {
 
     state = {
-        editorState: this.props.editorState
+        editorState: this.props.editorState,
+        saveTimer: 0
     };
 
     onChange = (editor, data, value) => {
-        this.setState({editorState: value});
+        if (this.state.saveTimer) {
+            clearTimeout(this.state.saveTimer);
+        }
+
+        const timer = setTimeout(this.onSave, autoSaveTimeout);
+
+        this.setState({
+            editorState: value,
+            saveTimer: timer
+        });
     };
 
     onSave = () => {

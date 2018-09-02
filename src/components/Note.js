@@ -1,9 +1,13 @@
-import React from "react";
+import React, {Fragment} from "react";
 import Layout from "./Layout";
 import firebase from 'firebase';
 import Editor from "./Editor";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import Snackbar from "@material-ui/core/es/Snackbar/Snackbar";
+import SnackbarContent from "@material-ui/core/es/SnackbarContent/SnackbarContent";
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import "./Snackbar.css";
 
 class Note extends React.Component {
 
@@ -11,7 +15,12 @@ class Note extends React.Component {
         super(props);
         const userId = firebase.auth().currentUser.uid;
         const noteId = props.match.params.noteId || null;
-        this.state = ({userId, noteId, editorState: ''});
+        this.state = ({
+            userId,
+            noteId,
+            editorState: '# ',
+            saveSnackBarVisible: false,
+        });
     }
 
     componentDidMount() {
@@ -29,7 +38,6 @@ class Note extends React.Component {
 
         const title = this.extractTitle(data);
 
-        console.log(title);
         if (!this.state.noteId) {
             const noteId = firebase.database().ref(this.state.userId).push().key;
             this.setState({ noteId }, () => this.save(title, data));
@@ -43,7 +51,13 @@ class Note extends React.Component {
             title: title,
             content: content,
             updatedTime: Date.now()
-        });
+        }, (error) => {
+            if (!error) {
+                this.setState({
+                    saveSnackBarVisible: true
+                })
+            }
+        })
     }
 
     extractTitle(text) {
@@ -51,10 +65,33 @@ class Note extends React.Component {
         return matches && matches.length > 0 ? matches[1] : '';
     }
 
+    handleSaveSnackBarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({ saveSnackBarVisible: false });
+    }
+
     render() {
         return (
             <Layout title="Note">
                 <Editor editorState={this.state.editorState} onSave={this.onEditorSave}/>
+                <Snackbar
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}
+                    open={this.state.saveSnackBarVisible}
+                    autoHideDuration={3000}
+                    onClose={this.handleSaveSnackBarClose}
+                    ContentProps={{ 'aria-describedby': 'message-id' }}
+                >
+                    <SnackbarContent className="SnackbarContent message success" message={
+                        <Fragment>
+                            <CheckCircleIcon/>
+                            <span id="message-id">Note saved</span>
+                        </Fragment>
+                    }
+                    />
+                </Snackbar>
             </Layout>);
     }
 }
