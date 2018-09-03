@@ -4,11 +4,20 @@ import {UnControlled as CodeMirror} from 'react-codemirror2';
 import 'codemirror/mode/markdown/markdown';
 import 'codemirror/lib/codemirror.css';
 import './SplitPane.css';
-import './Editor.css';
 import './CodeMirror.css';
 import 'typeface-roboto-mono';
 import MarkdownView from "./MarkdownView";
 import Button from "@material-ui/core/Button/Button";
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+    bar: {
+        padding: '1em',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        background: '#eeeeee'
+    }
+};
 
 const codeMirrorOptions = {
     mode: 'markdown',
@@ -46,9 +55,10 @@ class Editor extends React.Component {
     };
 
     render() {
+        const { classes } = this.props;
         return (
             <div className='Editor'>
-                <div className='Bar'>
+                <div className={classes.bar}>
                     <Button color="primary" className="" onClick={this.onSave}>Save</Button>
                 </div>
                 <SplitPane split="vertical" minSize={200} defaultSize={800}>
@@ -65,4 +75,4 @@ class Editor extends React.Component {
     }
 }
 
-export default Editor;
+export default withStyles(styles)(Editor);

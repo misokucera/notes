@@ -8,12 +8,29 @@ import CardContent from "@material-ui/core/CardContent/CardContent";
 import MarkdownView from "./MarkdownView";
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
-import "./Card.css";
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+    card: {
+        position: 'relative',
+        height: '100%',
+        '&:after': {
+            content: '""',
+            position: 'absolute',
+            width: '100%',
+            height: '2em',
+            pointerEvents: 'none',
+            bottom: 0,
+            background: 'linear-gradient(transparent, white 80%)'
+        }
+    }
+};
 
 class NoteListItem extends React.Component {
     render() {
+        const { classes } = this.props;
         return (
-            <Card className="Card">
+            <Card className={classes.card}>
                 <CardHeader
                     action={
                         <Fragment>
@@ -37,4 +54,4 @@ class NoteListItem extends React.Component {
     }
 }
 
-export default NoteListItem;
+export default withStyles(styles)(NoteListItem);
